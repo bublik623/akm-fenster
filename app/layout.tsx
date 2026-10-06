@@ -5,6 +5,8 @@ import "./globals.css";
 const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
   subsets: ["latin"],
+  // Body text renders fine in the metric-matched fallback; leave first-load bandwidth to the hero heading font.
+  preload: false,
 });
 
 const instrument = Instrument_Serif({

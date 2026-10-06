@@ -115,7 +115,7 @@ export default function Home() {
 
             <div className="relative">
               <div className="grid aspect-[5/6] grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] grid-rows-2 gap-3 bg-ink-deep p-3 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
-                <Photo src={images.hero} alt="Fenster von innen, Licht" sizes="(min-width: 1024px) 30vw, 55vw" priority className="row-span-2" />
+                <Photo src={images.hero} alt="Fenster von innen, Licht" sizes="(min-width: 1024px) 30vw, 55vw" eager className="row-span-2" />
                 <Photo alt="Terrassenüberdachung" sizes="(min-width: 1024px) 25vw, 45vw" />
                 <Photo src={images.door} alt="Haustür" sizes="(min-width: 1024px) 25vw, 45vw" />
               </div>
