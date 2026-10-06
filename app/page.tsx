@@ -116,7 +116,7 @@ export default function Home() {
             <div className="relative">
               <div className="grid aspect-[5/6] grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] grid-rows-2 gap-3 bg-ink-deep p-3 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
                 <Photo src={images.hero} alt="Fenster von innen, Licht" sizes="(min-width: 1024px) 30vw, 55vw" eager className="row-span-2" />
-                <Photo alt="Terrassenüberdachung" sizes="(min-width: 1024px) 25vw, 45vw" />
+                <Photo src={images.terrace} alt="Terrassenüberdachung" sizes="(min-width: 1024px) 25vw, 45vw" />
                 <Photo src={images.door} alt="Haustür" sizes="(min-width: 1024px) 25vw, 45vw" />
               </div>
               <div className="absolute bottom-9 left-3 flex max-w-60 flex-col gap-1 bg-cream px-[1.375rem] py-[1.125rem] text-ink shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)]">
@@ -212,7 +212,7 @@ export default function Home() {
           >
             <div className="grid grid-cols-2 gap-3">
               <Photo src={images.team} alt="Monteure bei der Arbeit" sizes="(min-width: 1024px) 25vw, 50vw" className="aspect-[3/4]" />
-              <Photo alt="Beratung / Muster" sizes="(min-width: 1024px) 25vw, 50vw" className="mt-16 aspect-[3/4]" />
+              <Photo src={images.installation} alt="Montage einer Schiebetür vor Ort" sizes="(min-width: 1024px) 25vw, 50vw" className="mt-16 aspect-[3/4]" />
             </div>
             <div>
               <h2 className="m-0 font-serif text-[clamp(2.5rem,4.6vw,4rem)] leading-none font-normal tracking-[-0.02em]">

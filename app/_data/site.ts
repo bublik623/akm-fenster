@@ -1,6 +1,7 @@
 import { sampleReviews } from "./sampleReviews";
 
 const IMG = "https://jovial-horse-6e378a.netlify.app/assets/images";
+const LOCAL = "/images/products";
 
 export const contact = {
   phone: "+49 176 22983100",
@@ -13,8 +14,10 @@ export const contact = {
 
 export const images = {
   hero: `${IMG}/hero/hero-main.jpg`,
-  door: `${IMG}/tueren/tueren-main.jpg`,
+  door: `${LOCAL}/tueren.jpg`,
+  terrace: `${LOCAL}/terrassendach.jpg`,
   team: `${IMG}/service/service-main.jpg`,
+  installation: `${LOCAL}/installation.jpg`,
 };
 
 export type Product = {
@@ -29,7 +32,7 @@ export type Product = {
 export const products: Product[] = [
   {
     key: "fenster",
-    img: `${IMG}/fenster/fenster-main.jpg`,
+    img: `${LOCAL}/fenster.jpg`,
     name: "Fenster",
     tagline: "Licht rein, Wärme drin.",
     desc: "Moderne Fensterlösungen für Wärmeschutz, Wohnkomfort und eine zeitgemäße Optik — für Neubau, Modernisierung und Austausch.",
@@ -37,7 +40,7 @@ export const products: Product[] = [
   },
   {
     key: "tueren",
-    img: `${IMG}/tueren/tueren-main.jpg`,
+    img: `${LOCAL}/tueren.jpg`,
     name: "Türen",
     tagline: "Der erste Eindruck zählt.",
     desc: "Haustüren und weitere Türlösungen passend zu Gebäude, Anforderungen und persönlichem Stil.",
@@ -45,7 +48,7 @@ export const products: Product[] = [
   },
   {
     key: "rolllaeden",
-    img: `${IMG}/rolllaeden/rolllaeden-main.jpg`,
+    img: `${LOCAL}/rolllaeden.jpg`,
     name: "Rollläden & Raffstores",
     tagline: "Ruhe, Dunkel, Sicherheit.",
     desc: "Sicht-, Sonnen- und Wetterschutz für mehr Komfort und Kontrolle im Alltag — manuell oder elektrisch.",
@@ -53,7 +56,7 @@ export const products: Product[] = [
   },
   {
     key: "markisen",
-    img: `${IMG}/markisen/markisen-main.jpg`,
+    img: `${LOCAL}/markisen.jpg`,
     name: "Markisen & Sonnenschutz",
     tagline: "Schatten, wann Sie wollen.",
     desc: "Flexible Sonnenschutzlösungen für Terrasse, Balkon, Fenster und Außenbereiche.",
@@ -61,6 +64,7 @@ export const products: Product[] = [
   },
   {
     key: "garagentore",
+    img: `${LOCAL}/garagentore.jpg`,
     name: "Garagentore",
     tagline: "Leise auf, sicher zu.",
     desc: "Sektional-, Schwing- und Rolltore mit Antrieb — wärmegedämmt, wartungsarm und passend zur Haustür.",
@@ -68,6 +72,7 @@ export const products: Product[] = [
   },
   {
     key: "terrassendach",
+    img: `${LOCAL}/terrassendach.jpg`,
     name: "Terrassenüberdachungen",
     tagline: "Draußen, bei jedem Wetter.",
     desc: "Terrassendächer aus Aluminium mit Glas oder Stegplatten — optional mit Beschattung, Licht und Seitenwänden.",
@@ -75,6 +80,7 @@ export const products: Product[] = [
   },
   {
     key: "wintergarten",
+    img: `${LOCAL}/wintergarten.jpg`,
     name: "Wintergärten",
     tagline: "Ein Zimmer mehr — aus Licht.",
     desc: "Kalt- und Warmwintergärten, individuell geplant und ganzjährig nutzbar.",
@@ -82,7 +88,7 @@ export const products: Product[] = [
   },
   {
     key: "insektenschutz",
-    img: `${IMG}/insektenschutz/insektenschutz-main.jpg`,
+    img: `${LOCAL}/insektenschutz.jpg`,
     name: "Insektenschutz & Zubehör",
     tagline: "Frische Luft, ohne Gäste.",
     desc: "Praktische Ergänzungen für Fenster und Türen, individuell passend zu Ihrem Zuhause.",
