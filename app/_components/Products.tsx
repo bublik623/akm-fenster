@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { PRODUCT_REQUEST_EVENT, products, type Product } from "../_data/site";
 import { Photo } from "./Photo";
 
@@ -10,30 +10,13 @@ function requestProduct(name: string) {
   window.dispatchEvent(new CustomEvent(PRODUCT_REQUEST_EVENT, { detail: name }));
 }
 
-/**
- * Keeps `el` at the same viewport position while panels above it collapse,
- * so the row the user tapped never slides away from their finger.
- * Stops as soon as the user scrolls themselves.
- */
-function anchorWhileAnimating(el: HTMLElement) {
-  const startTop = el.getBoundingClientRect().top;
-  const end = performance.now() + ACCORDION_MS + 50;
-  let cancelled = false;
-  const cancel = () => (cancelled = true);
-  window.addEventListener("wheel", cancel, { once: true, passive: true });
-  window.addEventListener("touchstart", cancel, { once: true, passive: true });
-
-  const tick = () => {
-    if (cancelled) return;
-    const drift = el.getBoundingClientRect().top - startTop;
-    if (Math.abs(drift) >= 1) window.scrollBy({ top: drift, behavior: "instant" });
-    if (performance.now() < end) requestAnimationFrame(tick);
-    else {
-      window.removeEventListener("wheel", cancel);
-      window.removeEventListener("touchstart", cancel);
-    }
-  };
-  requestAnimationFrame(tick);
+/** Scrolls by `dy` immediately, bypassing the page-wide `scroll-behavior: smooth`. */
+function scrollByInstant(dy: number) {
+  const html = document.documentElement;
+  const prev = html.style.scrollBehavior;
+  html.style.scrollBehavior = "auto";
+  window.scrollBy(0, dy);
+  html.style.scrollBehavior = prev;
 }
 
 function Features({ items }: { items: string[] }) {
@@ -68,38 +51,35 @@ export function Products() {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(0);
   const rows = useRef<(HTMLButtonElement | null)[]>([]);
-  const list = useRef<HTMLOListElement>(null);
   const current = products[active];
 
-  // Mobile: fetch every panel photo before the section scrolls into view. Lazily loaded,
-  // a photo would only start downloading/decoding when its panel first opens — mid-animation —
-  // and the dropped frames make the accordion jump on the first open of each panel.
-  const [warm, setWarm] = useState(false);
-  useEffect(() => {
-    const el = list.current;
-    if (!el || !window.matchMedia("(max-width: 47.49rem)").matches) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return;
-        setWarm(true);
-        io.disconnect();
-      },
-      { rootMargin: "1000px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  // Mobile: when the open panel sits above the tapped row, it closes instantly and the page is
+  // scrolled by the height it lost — once, before paint — so the row stays under the finger.
+  // Compensating frame-by-frame during an animated collapse jumps on iOS, where script scrolls
+  // lag behind layout whenever a frame is slow (e.g. a panel painted for the first time).
+  const [snapClosed, setSnapClosed] = useState(-1);
+  const anchor = useRef<{ row: HTMLElement; top: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const a = anchor.current;
+    if (!a) return;
+    anchor.current = null;
+    const drift = a.row.getBoundingClientRect().top - a.top;
+    if (Math.abs(drift) >= 1) scrollByInstant(drift);
+  }, [open]);
 
   const select = (i: number) => {
     const row = rows.current[i];
-    if (row && window.matchMedia("(max-width: 47.49rem)").matches) anchorWhileAnimating(row);
+    const above = open !== -1 && open < i && window.matchMedia("(max-width: 47.49rem)").matches;
+    anchor.current = above && row ? { row, top: row.getBoundingClientRect().top } : null;
+    setSnapClosed(above ? open : -1);
     setActive(i);
-    setOpen((o) => (o === i ? -1 : i));
+    setOpen(open === i ? -1 : i);
   };
 
   return (
     <div className="grid items-start gap-12 md:grid-cols-2 md:gap-x-[clamp(2rem,5vw,5rem)]">
-      <ol ref={list} className="m-0 list-none border-t border-line p-0">
+      <ol className="m-0 list-none border-t border-line p-0">
         {products.map((p, i) => {
           const isActive = i === active;
           const isOpen = i === open;
@@ -133,12 +113,12 @@ export function Products() {
                 id={`product-panel-${p.key}`}
                 inert={!isOpen}
                 className={`grid transition-[grid-template-rows] ease-settle md:hidden ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-                style={{ transitionDuration: `${ACCORDION_MS}ms` }}
+                style={{ transitionDuration: `${i === snapClosed ? 0 : ACCORDION_MS}ms` }}
               >
                 <div
                   className={`flex min-h-0 flex-col gap-3.5 overflow-hidden transition-opacity duration-300 ease-settle ${isOpen ? "opacity-100" : "opacity-0"}`}
                 >
-                  <Photo src={p.img} alt={p.name} sizes="100vw" eager={warm} className="aspect-[4/3] w-full shrink-0" />
+                  <Photo src={p.img} alt={p.name} sizes="100vw" className="aspect-[4/3] w-full shrink-0" />
                   <h3 className="mt-1 font-serif text-[1.625rem] leading-[1.15] font-normal">{p.tagline}</h3>
                   <p className="m-0 text-base leading-relaxed text-body">{p.desc}</p>
                   <Features items={p.features} />
