@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PRODUCT_REQUEST_EVENT, products, type Product } from "../_data/site";
 import { Photo } from "./Photo";
 
@@ -68,7 +68,27 @@ export function Products() {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(0);
   const rows = useRef<(HTMLButtonElement | null)[]>([]);
+  const list = useRef<HTMLOListElement>(null);
   const current = products[active];
+
+  // Mobile: fetch every panel photo before the section scrolls into view. Lazily loaded,
+  // a photo would only start downloading/decoding when its panel first opens — mid-animation —
+  // and the dropped frames make the accordion jump on the first open of each panel.
+  const [warm, setWarm] = useState(false);
+  useEffect(() => {
+    const el = list.current;
+    if (!el || !window.matchMedia("(max-width: 47.49rem)").matches) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        setWarm(true);
+        io.disconnect();
+      },
+      { rootMargin: "1000px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const select = (i: number) => {
     const row = rows.current[i];
@@ -79,7 +99,7 @@ export function Products() {
 
   return (
     <div className="grid items-start gap-12 md:grid-cols-2 md:gap-x-[clamp(2rem,5vw,5rem)]">
-      <ol className="m-0 list-none border-t border-line p-0">
+      <ol ref={list} className="m-0 list-none border-t border-line p-0">
         {products.map((p, i) => {
           const isActive = i === active;
           const isOpen = i === open;
@@ -118,7 +138,7 @@ export function Products() {
                 <div
                   className={`flex min-h-0 flex-col gap-3.5 overflow-hidden transition-opacity duration-300 ease-settle ${isOpen ? "opacity-100" : "opacity-0"}`}
                 >
-                  <Photo src={p.img} alt={p.name} sizes="100vw" className="aspect-[4/3] w-full shrink-0" />
+                  <Photo src={p.img} alt={p.name} sizes="100vw" eager={warm} className="aspect-[4/3] w-full shrink-0" />
                   <h3 className="mt-1 font-serif text-[1.625rem] leading-[1.15] font-normal">{p.tagline}</h3>
                   <p className="m-0 text-base leading-relaxed text-body">{p.desc}</p>
                   <Features items={p.features} />
