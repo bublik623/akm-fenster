@@ -1,4 +1,5 @@
 import { ContactForm } from "./_components/ContactForm";
+import { Footer } from "./_components/Footer";
 import { Header } from "./_components/Header";
 import { MobileActionBar } from "./_components/MobileActionBar";
 import { Photo } from "./_components/Photo";
@@ -295,24 +296,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="on-dark bg-ink-deep text-sm text-[#a9a397]">
-        <div className={`${container} flex flex-wrap justify-between gap-x-10 gap-y-5 py-10`}>
-          <span>
-            <span className="font-bold text-cream">akm</span>{" "}
-            <span className="font-serif text-[1.0625rem] text-cream italic">Fenster</span> —{" "}
-            {contact.address.replace(" · ", ", ")}
-          </span>
-          <div className="flex flex-wrap gap-6">
-            <a href={contact.impressum} className="no-underline">
-              Impressum
-            </a>
-            <a href={contact.datenschutz} className="no-underline">
-              Datenschutz
-            </a>
-            <span>© 2026 AKM Fenster &amp; Türen</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <MobileActionBar />
     </div>

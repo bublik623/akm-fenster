@@ -8,7 +8,7 @@ export const contact = {
   phoneHref: "tel:+4917622983100",
   email: "akm-fenster@gmx.net",
   address: "Am Kohlenmeiler 121 · 42389 Wuppertal",
-  impressum: "https://jovial-horse-6e378a.netlify.app/pages/impressum",
+  impressum: "/impressum",
   datenschutz: "https://jovial-horse-6e378a.netlify.app/pages/datenschutz",
 };
 
