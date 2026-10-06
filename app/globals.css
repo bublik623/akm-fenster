@@ -7,7 +7,7 @@
   --font-serif: var(--font-instrument), Georgia, serif;
 
   --color-accent: #c9a15a;
-  --color-bronze: #8a6a35;
+  --color-bronze: #87672f;
   --color-kicker: #6b5a3e;
 
   --color-ink: #24282c;
@@ -23,7 +23,7 @@
 
   --color-body: #4a4f54;
   --color-muted: #5a5f64;
-  --color-gray: #6f7377; /* ≥ 4.5:1 on cream and white */
+  --color-gray: #65696d; /* ≥ 4.5:1 on cream and white */
   --color-soft: #d8d2c7;
   --color-fog: #cfc8bc;
   --color-danger: #a33a2a;
@@ -32,33 +32,36 @@
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  background: var(--color-cream);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  text-wrap: pretty;
-}
-
-a {
-  color: inherit;
-}
-
-@media (hover: hover) {
-  a:hover {
-    color: var(--color-accent);
+/* In the base layer so utilities win over these (e.g. text-ink-deep on a link). */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
-}
 
-/* Focus ring: bronze on light surfaces, brass on dark ones (both ≥ 3:1). */
-:focus-visible {
-  outline: 2px solid var(--focus, var(--color-bronze));
-  outline-offset: 3px;
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  @media (hover: hover) {
+    a:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  /* Focus ring: bronze on light surfaces, brass on dark ones (both ≥ 3:1). */
+  :focus-visible {
+    outline: 2px solid var(--focus, var(--color-bronze));
+    outline-offset: 3px;
+  }
 }
 
 /* Fluid horizontal page gutter shared by every section */
