@@ -186,7 +186,7 @@ export function ContactForm() {
       <p className="m-0 text-[0.8125rem] leading-normal text-muted">
         Mit dem Absenden erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage
         einverstanden. Mehr in unserer{" "}
-        <a href={contact.datenschutz} className="text-ink">
+        <a href={contact.datenschutz} className="text-ink underline underline-offset-2">
           Datenschutzerklärung
         </a>
         .
