@@ -14,9 +14,9 @@ export function Footer() {
           <Link href={contact.impressum} className="no-underline">
             Impressum
           </Link>
-          <a href={contact.datenschutz} className="no-underline">
+          <Link href={contact.datenschutz} className="no-underline">
             Datenschutz
-          </a>
+          </Link>
           <span>© 2026 AKM Fenster &amp; Türen</span>
         </div>
       </div>

@@ -9,7 +9,7 @@ export const contact = {
   email: "akm-fenster@gmx.net",
   address: "Am Kohlenmeiler 121 · 42389 Wuppertal",
   impressum: "/impressum",
-  datenschutz: "https://jovial-horse-6e378a.netlify.app/pages/datenschutz",
+  datenschutz: "/datenschutz",
 };
 
 export const images = {
