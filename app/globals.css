@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-md: 47.5rem; /* 760px — mobile/desktop switch from the design */
+
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+
+  --color-accent: #c9a15a;
+  --color-bronze: #8a6a35;
+  --color-kicker: #6b5a3e;
+
+  --color-ink: #24282c;
+  --color-ink-deep: #1d2023;
+  --color-slate: #2b2f33;
+  --color-cream: #f6f2ec;
+  --color-sand: #e9e2d6;
+  --color-paper: #fffdf9;
+
+  --color-line: #d9d1c4;
+  --color-card-line: #e3dacb;
+  --color-chip-line: #cdbfa9;
+
+  --color-body: #4a4f54;
+  --color-muted: #5a5f64;
+  --color-gray: #6f7377; /* ≥ 4.5:1 on cream and white */
+  --color-soft: #d8d2c7;
+  --color-fog: #cfc8bc;
+  --color-danger: #a33a2a;
+
+  /* One curve for every UI transition: fast start, soft settle (≈ critically damped). */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* Focus ring: bronze on light surfaces, brass on dark ones (both ≥ 3:1). */
+:focus-visible {
+  outline: 2px solid var(--focus, var(--color-bronze));
+  outline-offset: 3px;
+}
+
+/* Fluid horizontal page gutter shared by every section */
+@utility gutter {
+  padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+/* Dark surface: switches the focus ring to the accent colour */
+@utility on-dark {
+  --focus: var(--color-accent);
+}
+
+/* Instant press feedback on pointer-down */
+@utility press {
+  transition:
+    transform 100ms ease-out,
+    filter 150ms ease-out,
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .backdrop-blur-md,
+  .backdrop-blur-sm {
+    backdrop-filter: none !important;
+    background-color: var(--color-ink-deep) !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-muted: #3a3f44;
+    --color-gray: #4a4f54;
+    --color-line: #8b8f93;
+    --color-chip-line: #6f7377;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+}

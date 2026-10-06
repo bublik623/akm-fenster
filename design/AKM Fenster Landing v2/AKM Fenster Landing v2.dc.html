@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<script src="image-slot.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #f6f2ec; color: #24282c; font-family: 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+a { color: inherit; }
+a:hover { color: #b8873e; }
+button, input, textarea { font-family: inherit; }
+:focus-visible { outline: 2px solid #c9a15a; outline-offset: 3px; }
+</style>
+</helmet>
+
+<div style="--accent: {{ accent }}; overflow-x: clip;">
+
+<sc-if value="{{ showTopbar }}" hint-placeholder-val="{{ true }}">
+  <div style="background: #1d2023; color: #cfc8bc; font-size: 13px; letter-spacing: 0.02em;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 10px clamp(20px, 4vw, 56px); display: flex; gap: 8px 28px; flex-wrap: wrap; justify-content: space-between;">
+      <span>Beratung · Auswahl · Lieferung · Montage — alles aus einer Hand</span>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <a href="tel:+4917622983100" style="text-decoration: none;">+49 176 22983100</a>
+        <span>Am Kohlenmeiler 121 · 42389 Wuppertal</span>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<header style="position: sticky; top: 0; z-index: 20; background: #2b2f33; color: #f6f2ec; border-bottom: 1px solid rgba(246,242,236,0.12);">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 14px clamp(20px, 4vw, 56px); display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
+    <a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; margin-right: auto; color: #f6f2ec;">
+      <span style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 30px; height: 30px; padding: 3px; border: 2px solid var(--accent); box-sizing: border-box;">
+        <span style="background: var(--accent);"></span><span style="background: rgba(246,242,236,0.25);"></span><span style="background: rgba(246,242,236,0.25);"></span><span style="background: rgba(246,242,236,0.25);"></span>
+      </span>
+      <span style="font-weight: 700; font-size: 20px; letter-spacing: -0.02em;">akm</span>
+      <span style="font-family: 'Instrument Serif', serif; font-size: 22px; font-style: italic; margin-left: -6px;">Fenster</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <nav style="display: flex; gap: 28px; font-size: 15px; flex-wrap: wrap;">
+      <a href="#produkte" style="text-decoration: none;">Produkte</a>
+      <a href="#ablauf" style="text-decoration: none;">Ablauf</a>
+      <a href="#warum" style="text-decoration: none;">Warum akm</a>
+      <a href="#anfrage" style="text-decoration: none;">Kontakt</a>
+    </nav>
+    <a href="#anfrage" style="background: var(--accent); color: #1d2023; text-decoration: none; font-weight: 600; font-size: 15px; padding: 11px 20px; border-radius: 999px; white-space: nowrap;" style-hover="filter: brightness(1.08); color: #1d2023;">Beratung anfragen</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; gap: 8px;">
+        <a href="tel:+4917622983100" aria-label="Anrufen" style="width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; background: var(--accent); color: #1d2023; text-decoration: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+        <button type="button" aria-label="Menü" onClick="{{ toggleMenu }}" style="width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1px solid rgba(246,242,236,0.35); background: transparent; color: #f6f2ec; cursor: pointer; font-size: 20px; line-height: 1;">{{ menuIcon }}</button>
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <nav style="display: flex; flex-direction: column; padding: 8px 20px 24px; border-top: 1px solid rgba(246,242,236,0.12);">
+      <a href="#produkte" onClick="{{ closeMenu }}" style="text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 30px; padding: 12px 0; border-bottom: 1px solid rgba(246,242,236,0.12);">Produkte</a>
+      <a href="#ablauf" onClick="{{ closeMenu }}" style="text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 30px; padding: 12px 0; border-bottom: 1px solid rgba(246,242,236,0.12);">Ablauf</a>
+      <a href="#warum" onClick="{{ closeMenu }}" style="text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 30px; padding: 12px 0; border-bottom: 1px solid rgba(246,242,236,0.12);">Warum akm</a>
+      <a href="#bewertungen" onClick="{{ closeMenu }}" style="text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 30px; padding: 12px 0; border-bottom: 1px solid rgba(246,242,236,0.12);">Bewertungen</a>
+      <a href="#anfrage" onClick="{{ closeMenu }}" style="margin-top: 20px; text-align: center; background: var(--accent); color: #1d2023; text-decoration: none; font-weight: 600; font-size: 16px; padding: 15px 20px; border-radius: 999px;">Kostenlose Beratung anfragen</a>
+      <span style="margin-top: 16px; font-size: 14px; color: #cfc8bc;">Am Kohlenmeiler 121 · 42389 Wuppertal</span>
+    </nav>
+  </sc-if>
+</header>
+
+<section id="top" data-screen-label="Hero" style="background: #2b2f33; color: #f6f2ec;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(48px, 7vw, 96px) clamp(20px, 4vw, 56px) clamp(56px, 8vw, 110px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px clamp(32px, 5vw, 88px); align-items: center;">
+    <div>
+      <div style="display: inline-flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #cfc8bc; margin-bottom: 28px;">
+        <span style="width: 28px; height: 1px; background: var(--accent);"></span>Fenster &amp; Türen in NRW
+      </div>
+      <h1 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(52px, 7.4vw, 108px); line-height: 0.95; letter-spacing: -0.02em; margin: 0;">
+        Mehr Licht.<br>Mehr Ruhe.<br><em style="color: var(--accent);">Mehr Zuhause.</em>
+      </h1>
+      <p style="font-size: 18px; line-height: 1.6; max-width: 46ch; margin: 32px 0 0; color: #d8d2c7;">Fenster, Türen, Rollläden, Markisen, Garagentore, Terrassenüberdachungen und Wintergärten — wir beraten herstellerunabhängig, bestellen bei ausgewählten europäischen Markenherstellern und bauen fachgerecht ein. Ein Ansprechpartner von der ersten Idee bis zum letzten Handgriff.</p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 40px;">
+        <a href="#anfrage" style="display: inline-flex; align-items: center; gap: 14px; background: var(--accent); color: #1d2023; text-decoration: none; font-weight: 600; font-size: 16px; padding: 16px 26px; border-radius: 999px;" style-hover="filter: brightness(1.08); color: #1d2023;">Kostenlose Beratung <span aria-hidden="true">→</span></a>
+        <a href="#produkte" style="display: inline-flex; align-items: center; color: #f6f2ec; text-decoration: none; font-weight: 500; font-size: 16px; padding: 16px 26px; border-radius: 999px; border: 1px solid rgba(246,242,236,0.35);" style-hover="border-color: #f6f2ec; color: #f6f2ec;">Produkte entdecken</a>
+      </div>
+    </div>
+    <div style="position: relative;">
+      <div style="display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); grid-template-rows: minmax(0,1fr) minmax(0,1fr); gap: 12px; padding: 12px; background: #1d2023; aspect-ratio: 5 / 6; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6);">
+        <image-slot id="akm2-hero-a" shape="rect" src="https://jovial-horse-6e378a.netlify.app/assets/images/hero/hero-main.jpg" placeholder="Foto: Fenster von innen, Licht" style="display: block; grid-row: span 2; width: 100%; height: 100%; min-width: 0; min-height: 0;"></image-slot>
+        <image-slot id="akm2-hero-b" shape="rect" placeholder="Foto: Terrassenüberdachung" style="display: block; width: 100%; height: 100%; min-width: 0; min-height: 0;"></image-slot>
+        <image-slot id="akm2-hero-c" shape="rect" src="https://jovial-horse-6e378a.netlify.app/assets/images/tueren/tueren-main.jpg" placeholder="Foto: Haustür" style="display: block; width: 100%; height: 100%; min-width: 0; min-height: 0;"></image-slot>
+      </div>
+      <div style="position: absolute; left: 12px; bottom: 36px; background: #f6f2ec; color: #24282c; padding: 18px 22px; display: flex; flex-direction: column; gap: 4px; max-width: 240px; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);">
+        <span style="font-family: 'Instrument Serif', serif; font-size: 30px; line-height: 1;">Nach Maß</span>
+        <span style="font-size: 14px; line-height: 1.45; color: #5a5f64;">Vom Markenhersteller exakt für Ihre Öffnung gefertigt — von uns eingebaut.</span>
+      </div>
+    </div>
+  </div>
+  <div style="border-top: 1px solid rgba(246,242,236,0.12);">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+      <div style="padding: 24px 0; display: flex; align-items: baseline; gap: 12px;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--accent);">01</span><span style="font-size: 15px; font-weight: 500;">Beratung vor Ort</span></div>
+      <div style="padding: 24px 0; display: flex; align-items: baseline; gap: 12px;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--accent);">02</span><span style="font-size: 15px; font-weight: 500;">Herstellerunabhängig</span></div>
+      <div style="padding: 24px 0; display: flex; align-items: baseline; gap: 12px;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--accent);">03</span><span style="font-size: 15px; font-weight: 500;">Fester Angebotspreis</span></div>
+      <div style="padding: 24px 0; display: flex; align-items: baseline; gap: 12px;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--accent);">04</span><span style="font-size: 15px; font-weight: 500;">Montage durch eigenes Team</span></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Vertrauen" style="border-bottom: 1px solid #d9d1c4;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(48px, 6vw, 80px) clamp(20px, 4vw, 56px) clamp(40px, 5vw, 64px); display: flex; flex-direction: column; gap: 48px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); gap: 28px;">
+      <div style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--accent); padding-left: 20px;"><span style="font-family: 'Instrument Serif', serif; font-size: clamp(48px, 5vw, 68px); line-height: 0.95;">2023</span><span style="font-size: 15px; color: #5a5f64;">Gegründet in Wuppertal</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--accent); padding-left: 20px;"><span style="font-family: 'Instrument Serif', serif; font-size: clamp(48px, 5vw, 68px); line-height: 0.95;">100+</span><span style="font-size: 15px; color: #5a5f64;">Abgeschlossene Objekte</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--accent); padding-left: 20px;"><span style="font-family: 'Instrument Serif', serif; font-size: clamp(48px, 5vw, 68px); line-height: 0.95;">20+</span><span style="font-size: 15px; color: #5a5f64;">Echte Kundenbewertungen</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--accent); padding-left: 20px;"><span style="font-family: 'Instrument Serif', serif; font-size: clamp(48px, 5vw, 68px); line-height: 0.95;">8</span><span style="font-size: 15px; color: #5a5f64;">Produktbereiche aus einer Hand</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid var(--accent); padding-left: 20px;"><span style="font-family: 'Instrument Serif', serif; font-size: clamp(48px, 5vw, 68px); line-height: 0.95;">0 €</span><span style="font-size: 15px; color: #5a5f64;">Kostenlose Erstberatung</span></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <span style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6b5a3e;">Ausgewählte Markenhersteller — wir sind an keinen gebunden</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px;">
+        <div style="background: #fffdf9; border: 1px solid #e3dacb; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 120px; min-width: 0;">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: #24282c;">FORCA</span>
+          <span style="font-size: 13px; color: #5a5f64;">Sonnenschutz-Systeme</span>
+        </div>
+        <div style="background: #fffdf9; border: 1px solid #e3dacb; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 120px; min-width: 0;">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: #24282c;">GEALAN</span>
+          <span style="font-size: 13px; color: #5a5f64;">PVC-Fensterprofile</span>
+        </div>
+        <div style="background: #fffdf9; border: 1px solid #e3dacb; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 120px; min-width: 0;">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: #24282c;">Reynaers</span>
+          <span style="font-size: 13px; color: #5a5f64;">Aluminium-Systeme</span>
+        </div>
+        <div style="background: #fffdf9; border: 1px solid #e3dacb; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 120px; min-width: 0;">
+          <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: #24282c;">Somfy</span>
+          <span style="font-size: 13px; color: #5a5f64;">Antriebe &amp; Smart-Home-Steuerung</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="produkte" data-screen-label="Produkte" style="scroll-margin-top: 70px;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(72px, 9vw, 128px) clamp(20px, 4vw, 56px);">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 24px 48px; flex-wrap: wrap; margin-bottom: 56px;">
+      <h2 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -0.02em; margin: 0; max-width: 14ch;">Acht Bereiche. <em style="color: #8a6a35;">Ein Team.</em></h2>
+      <p style="font-size: 17px; line-height: 1.6; max-width: 42ch; margin: 0; color: #5a5f64;">Wählen Sie einen Bereich — wir zeigen, was möglich ist. Alles wird aufeinander abgestimmt geplant und montiert.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px clamp(32px, 5vw, 80px); align-items: start;">
+      <ol style="list-style: none; margin: 0; padding: 0; border-top: 1px solid #d9d1c4;">
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="7">
+          <li style="border-bottom: 1px solid #d9d1c4;">
+            <button type="button" onClick="{{ p.select }}" style="all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 44px 1fr auto; align-items: baseline; gap: 16px; padding: 20px 4px; color: {{ p.color }};">
+              <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: {{ p.numColor }};">{{ p.num }}</span>
+              <span style="font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3vw, 40px); line-height: 1.05;">{{ p.name }}</span>
+              <span aria-hidden="true" style="font-size: 20px; opacity: {{ p.arrowOpacity }}; transform: {{ p.arrowRotate }}; transition: transform 0.2s;">→</span>
+            </button>
+            <sc-if value="{{ p.expanded }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 14px; padding: 0 0 24px;">
+                <image-slot id="akm2-prod-{{ p.key }}" shape="rect" src="{{ p.img }}" placeholder="Foto: {{ p.name }}" style="display: block; width: 100%; aspect-ratio: 4 / 3;"></image-slot>
+                <h3 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 26px; line-height: 1.15; margin: 4px 0 0;">{{ p.tagline }}</h3>
+                <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #4a4f54;">{{ p.desc }}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="3">
+                    <span style="font-size: 14px; padding: 7px 14px; border: 1px solid #cdbfa9; border-radius: 999px; color: #3a3f44;">{{ f }}</span>
+                  </sc-for>
+                </div>
+                <a href="#anfrage" onClick="{{ p.request }}" style="align-self: flex-start; margin-top: 4px; font-weight: 600; font-size: 15px; color: #24282c; text-decoration: none; border-bottom: 2px solid var(--accent); padding: 8px 0 4px;">{{ p.name }} anfragen →</a>
+              </div>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="position: sticky; top: 96px; display: flex; flex-direction: column; gap: 28px;">
+        <div style="position: relative; aspect-ratio: 4 / 3; background: #e7e0d5;">
+          <sc-for list="{{ products }}" as="p" hint-placeholder-count="1">
+            <image-slot id="akm2-prod-{{ p.key }}" shape="rect" src="{{ p.img }}" placeholder="Foto: {{ p.name }}" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; visibility: {{ p.visibility }};"></image-slot>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <h3 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 34px; line-height: 1.1; margin: 0;">{{ active.tagline }}</h3>
+          <p style="font-size: 16.5px; line-height: 1.65; margin: 0; color: #4a4f54; max-width: 56ch;">{{ active.desc }}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+            <sc-for list="{{ active.features }}" as="f" hint-placeholder-count="3">
+              <span style="font-size: 14px; padding: 7px 14px; border: 1px solid #cdbfa9; border-radius: 999px; color: #3a3f44;">{{ f }}</span>
+            </sc-for>
+          </div>
+          <a href="#anfrage" onClick="{{ active.request }}" style="align-self: flex-start; margin-top: 8px; font-weight: 600; font-size: 15px; color: #24282c; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 4px;">{{ active.cta }} →</a>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<section id="ablauf" data-screen-label="Ablauf" style="background: #e9e2d6; scroll-margin-top: 70px;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(72px, 9vw, 128px) clamp(20px, 4vw, 56px);">
+    <div style="display: inline-flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6b5a3e; margin-bottom: 20px;"><span style="width: 28px; height: 1px; background: #8a6a35;"></span>Aus einer Hand</div>
+    <h2 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -0.02em; margin: 0 0 64px; max-width: 18ch;">Vier Schritte — ein Ansprechpartner.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 40px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 2px solid #24282c; padding-top: 24px;">
+        <span style="font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 0.9; color: #8a6a35;">1</span>
+        <h3 style="font-size: 20px; font-weight: 600; margin: 0;">Beraten</h3>
+        <p style="font-size: 15.5px; line-height: 1.6; margin: 0; color: #4a4f54;">Wir kommen zu Ihnen, hören zu, zeigen Muster und klären Material, Optik und Budget.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 2px solid #24282c; padding-top: 24px;">
+        <span style="font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 0.9; color: #8a6a35;">2</span>
+        <h3 style="font-size: 20px; font-weight: 600; margin: 0;">Aufmessen &amp; anbieten</h3>
+        <p style="font-size: 15.5px; line-height: 1.6; margin: 0; color: #4a4f54;">Exaktes Aufmaß vor Ort und ein klares Angebot mit Festpreis — ohne versteckte Posten.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 2px solid #24282c; padding-top: 24px;">
+        <span style="font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 0.9; color: #8a6a35;">3</span>
+        <h3 style="font-size: 20px; font-weight: 600; margin: 0;">Bestellen</h3>
+        <p style="font-size: 15.5px; line-height: 1.6; margin: 0; color: #4a4f54;">Wir bestellen beim passenden Markenhersteller nach Maß und koordinieren den Liefertermin verbindlich.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 2px solid #24282c; padding-top: 24px;">
+        <span style="font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 0.9; color: #8a6a35;">4</span>
+        <h3 style="font-size: 20px; font-weight: 600; margin: 0;">Montieren</h3>
+        <p style="font-size: 15.5px; line-height: 1.6; margin: 0; color: #4a4f54;">Fachgerechter Einbau durch unser Team — sauber hinterlassen, mit Einweisung übergeben.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="warum" data-screen-label="Warum akm" style="scroll-margin-top: 70px;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(72px, 9vw, 128px) clamp(20px, 4vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 48px clamp(32px, 6vw, 112px); align-items: center;">
+    <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px;">
+      <image-slot id="akm2-team" shape="rect" src="https://jovial-horse-6e378a.netlify.app/assets/images/service/service-main.jpg" placeholder="Foto: Monteure bei der Arbeit" style="display: block; min-width: 0; width: 100%; aspect-ratio: 3 / 4;"></image-slot>
+      <image-slot id="akm2-show" shape="rect" placeholder="Foto: Beratung / Muster" style="display: block; min-width: 0; width: 100%; aspect-ratio: 3 / 4; margin-top: 64px;"></image-slot>
+    </div>
+    <div>
+      <h2 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(40px, 4.6vw, 64px); line-height: 1; letter-spacing: -0.02em; margin: 0;">Unabhängig beraten. <em style="color: #8a6a35;">Sauber eingebaut.</em></h2>
+      <p style="font-size: 17px; line-height: 1.65; margin: 28px 0 0; color: #4a4f54; max-width: 48ch;">Wir sind an keinen Hersteller gebunden. Deshalb empfehlen wir, was zu Ihrem Haus und Budget passt — nicht, was zufällig aus der eigenen Produktion kommt. Bestellung, Lieferung und Einbau koordinieren wir für Sie: ein Ansprechpartner, volle Verantwortung.</p>
+      <div style="display: flex; flex-direction: column; margin-top: 36px;">
+        <div style="display: grid; grid-template-columns: 28px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid #d9d1c4;"><span style="color: #8a6a35; font-size: 18px;">✓</span><div><div style="font-weight: 600; font-size: 16.5px;">Eigene Montageteams</div><div style="font-size: 15px; color: #5a5f64; margin-top: 4px;">Feste Ansprechpartner — von der Beratung bis zur Montage.</div></div></div>
+        <div style="display: grid; grid-template-columns: 28px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid #d9d1c4;"><span style="color: #8a6a35; font-size: 18px;">✓</span><div><div style="font-weight: 600; font-size: 16.5px;">Das Beste aus mehreren Herstellern</div><div style="font-size: 15px; color: #5a5f64; margin-top: 4px;">Wir vergleichen Profile, Gläser und Beschläge und wählen für jede Öffnung die passende Lösung.</div></div></div>
+        <div style="display: grid; grid-template-columns: 28px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid #d9d1c4; border-bottom: 1px solid #d9d1c4;"><span style="color: #8a6a35; font-size: 18px;">✓</span><div><div style="font-weight: 600; font-size: 16.5px;">Service in ganz NRW</div><div style="font-size: 15px; color: #5a5f64; margin-top: 4px;">Für private und gewerbliche Kunden — inklusive Reparatur &amp; Austausch.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bewertungen" data-screen-label="Bewertungen" style="background: #e9e2d6; scroll-margin-top: 70px;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(72px, 9vw, 120px) clamp(20px, 4vw, 56px); display: flex; flex-direction: column; gap: 48px;">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap;">
+      <h2 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -0.02em; margin: 0;">Was Kunden <em style="color: #8a6a35;">sagen.</em></h2>
+      <span style="font-size: 15px; color: #4a4f54;">Über 20 Bewertungen von Kunden aus Wuppertal und NRW</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px;">
+        <figure style="margin: 0; background: #fffdf9; border: 1px solid #e3dacb; padding: 28px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+          <blockquote style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 24px; line-height: 1.3;">„Bewertungstext 1 hier einfügen."</blockquote>
+          <figcaption style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px;"><span><strong style="font-weight: 600;">Name</strong> · Ort</span><span style="color: #8a6a35; letter-spacing: 2px;">★★★★★</span></figcaption>
+        </figure>
+        <figure style="margin: 0; background: #fffdf9; border: 1px solid #e3dacb; padding: 28px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+          <blockquote style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 24px; line-height: 1.3;">„Bewertungstext 2 hier einfügen."</blockquote>
+          <figcaption style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px;"><span><strong style="font-weight: 600;">Name</strong> · Ort</span><span style="color: #8a6a35; letter-spacing: 2px;">★★★★★</span></figcaption>
+        </figure>
+        <figure style="margin: 0; background: #fffdf9; border: 1px solid #e3dacb; padding: 28px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+          <blockquote style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 24px; line-height: 1.3;">„Bewertungstext 3 hier einfügen."</blockquote>
+          <figcaption style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px;"><span><strong style="font-weight: 600;">Name</strong> · Ort</span><span style="color: #8a6a35; letter-spacing: 2px;">★★★★★</span></figcaption>
+        </figure>
+    </div>
+  </div>
+</section>
+
+<section id="anfrage" data-screen-label="Anfrage" style="background: #2b2f33; color: #f6f2ec; scroll-margin-top: 70px;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: clamp(72px, 9vw, 128px) clamp(20px, 4vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 56px clamp(32px, 6vw, 112px); align-items: start;">
+    <div>
+      <h2 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(44px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.02em; margin: 0;">Ihr Projekt.<br><em style="color: var(--accent);">Ein Rückruf genügt.</em></h2>
+      <p style="font-size: 17px; line-height: 1.65; margin: 28px 0 0; color: #d8d2c7; max-width: 40ch;">Beratung und Aufmaß sind kostenlos und unverbindlich. Wir melden uns innerhalb eines Werktags.</p>
+      <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 40px; font-size: 16px;">
+        <a href="tel:+4917622983100" style="text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 30px;">+49 176 22983100</a>
+        <a href="mailto:akm-fenster@gmx.net" style="text-decoration: none; color: #d8d2c7;">akm-fenster@gmx.net</a>
+        <span style="color: #d8d2c7; margin-top: 10px;">Am Kohlenmeiler 121, 42389 Wuppertal</span>
+      </div>
+    </div>
+
+    <div style="background: #f6f2ec; color: #24282c; padding: clamp(24px, 3.5vw, 44px); display: flex; flex-direction: column; gap: 28px;">
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submit }}" style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <h3 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 34px; line-height: 1.1; margin: 0;">Rückruf anfordern</h3>
+            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: #5a5f64;">Name und Telefonnummer genügen. Weitere Angaben sind freiwillig.</p>
+          </div>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #24282c;"><span>Name *</span><input required="{{ true }}" name="name" autocomplete="name" style="font-size: 16px; padding: 14px; border: 1px solid #cdbfa9; background: #fff; color: #24282c; border-radius: 0; min-height: 48px; box-sizing: border-box;"></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #24282c;"><span>Telefon *</span><input required="{{ true }}" type="tel" name="tel" autocomplete="tel" style="font-size: 16px; padding: 14px; border: 1px solid #cdbfa9; background: #fff; color: #24282c; border-radius: 0; min-height: 48px; box-sizing: border-box;"></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #24282c;"><span style="display: flex; justify-content: space-between;">E-Mail <span style="font-weight: 400; color: #8b8f93;">optional</span></span><input type="email" name="mail" autocomplete="email" style="font-size: 16px; padding: 14px; border: 1px solid #cdbfa9; background: #fff; color: #24282c; border-radius: 0; min-height: 48px; box-sizing: border-box;"></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #24282c;"><span style="display: flex; justify-content: space-between;">Nachricht <span style="font-weight: 400; color: #8b8f93;">optional</span></span><textarea name="msg" rows="3" style="font-size: 16px; padding: 14px; border: 1px solid #cdbfa9; background: #fff; color: #24282c; border-radius: 0; min-height: 48px; box-sizing: border-box; resize: vertical;"></textarea></label>
+          <button type="submit" style="cursor: pointer; border: 0; background: #24282c; color: #f6f2ec; font-weight: 600; font-size: 16px; padding: 16px 26px; border-radius: 999px; min-height: 52px;">Rückruf anfordern</button>
+          <p style="font-size: 13px; line-height: 1.5; margin: 0; color: #5a5f64;">Mit dem Absenden erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage einverstanden. Mehr in unserer <a href="https://jovial-horse-6e378a.netlify.app/pages/datenschutz" style="color: #24282c;">Datenschutzerklärung</a>.</p>
+        </form>
+      </sc-if>
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <h3 style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 40px; line-height: 1.05; margin: 0;">Danke! <em style="color: #8a6a35;">Wir rufen zurück.</em></h3>
+          <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #4a4f54;">Wir melden uns in der Regel innerhalb eines Werktags bei Ihnen.</p>
+          <button type="button" onClick="{{ reset }}" style="align-self: flex-start; cursor: pointer; border: 1px solid #cdbfa9; background: transparent; color: #24282c; font-size: 15px; padding: 14px 22px; border-radius: 999px;">Neue Anfrage</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<footer style="background: #1d2023; color: #a9a397; font-size: 14px; padding-bottom: {{ footerPad }};">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 40px clamp(20px, 4vw, 56px); display: flex; justify-content: space-between; gap: 20px 40px; flex-wrap: wrap;">
+    <span><span style="color: #f6f2ec; font-weight: 700;">akm</span> <span style="font-family: 'Instrument Serif', serif; font-style: italic; color: #f6f2ec; font-size: 17px;">Fenster</span> — Am Kohlenmeiler 121, 42389 Wuppertal</span>
+    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+      <a href="https://jovial-horse-6e378a.netlify.app/pages/impressum" style="text-decoration: none;">Impressum</a>
+      <a href="https://jovial-horse-6e378a.netlify.app/pages/datenschutz" style="text-decoration: none;">Datenschutz</a>
+      <span>© 2026 AKM Fenster &amp; Türen</span>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(29,32,35,0.96); backdrop-filter: blur(8px); border-top: 1px solid rgba(246,242,236,0.12);">
+    <a href="tel:+4917622983100" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 999px; border: 1px solid rgba(246,242,236,0.35); color: #f6f2ec; text-decoration: none; font-weight: 600; font-size: 15px;">Anrufen</a>
+    <a href="#anfrage" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 999px; background: var(--accent); color: #1d2023; text-decoration: none; font-weight: 600; font-size: 15px;">Beratung anfragen</a>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Messing&quot;,&quot;Terrakotta&quot;,&quot;Salbei&quot;],&quot;default&quot;:&quot;Messing&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showTopbar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { active: 0, open: 0, step: 1, picked: [], type: null, files: [], w: typeof window !== 'undefined' ? window.innerWidth : 1200, menu: false };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r();
+    const jump = () => { const id = location.hash.slice(1); const el = id && document.getElementById(id); if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 70); };
+    if (location.hash) { setTimeout(jump, 400); setTimeout(jump, 1200); }
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); }
+
+  static PRODUCTS = [
+    { key: 'fenster', img: 'https://jovial-horse-6e378a.netlify.app/assets/images/fenster/fenster-main.jpg', name: 'Fenster', tagline: 'Licht rein, Wärme drin.', desc: 'Moderne Fensterlösungen für Wärmeschutz, Wohnkomfort und eine zeitgemäße Optik — für Neubau, Modernisierung und Austausch.', features: ['Kunststofffenster', 'Aluminiumfenster', 'Balkon- & Terrassentüren', 'Schiebeelemente'] },
+    { key: 'tueren', img: 'https://jovial-horse-6e378a.netlify.app/assets/images/tueren/tueren-main.jpg', name: 'Türen', tagline: 'Der erste Eindruck zählt.', desc: 'Haustüren und weitere Türlösungen passend zu Gebäude, Anforderungen und persönlichem Stil.', features: ['Haustüren', 'Nebeneingangstüren', 'Terrassentüren', 'Balkontüren'] },
+    { key: 'rolllaeden', img: 'https://jovial-horse-6e378a.netlify.app/assets/images/rolllaeden/rolllaeden-main.jpg', name: 'Rollläden & Raffstores', tagline: 'Ruhe, Dunkel, Sicherheit.', desc: 'Sicht-, Sonnen- und Wetterschutz für mehr Komfort und Kontrolle im Alltag — manuell oder elektrisch.', features: ['Rollläden', 'Raffstores', 'Elektrische Antriebe'] },
+    { key: 'markisen', img: 'https://jovial-horse-6e378a.netlify.app/assets/images/markisen/markisen-main.jpg', name: 'Markisen & Sonnenschutz', tagline: 'Schatten, wann Sie wollen.', desc: 'Flexible Sonnenschutzlösungen für Terrasse, Balkon, Fenster und Außenbereiche.', features: ['Terrassenmarkisen', 'Balkonmarkisen', 'Fenstermarkisen'] },
+    { key: 'garagentore', img: '', name: 'Garagentore', tagline: 'Leise auf, sicher zu.', desc: 'Sektional-, Schwing- und Rolltore mit Antrieb — wärmegedämmt, wartungsarm und passend zur Haustür.', features: ['Sektionaltore', 'Schwing- & Rolltore', 'Torantriebe'] },
+    { key: 'terrassendach', img: '', name: 'Terrassenüberdachungen', tagline: 'Draußen, bei jedem Wetter.', desc: 'Terrassendächer aus Aluminium mit Glas oder Stegplatten — optional mit Beschattung, Licht und Seitenwänden.', features: ['Glas oder Stegplatten', 'Beschattung', 'Seiten- & Schiebewände'] },
+    { key: 'wintergarten', img: '', name: 'Wintergärten', tagline: 'Ein Zimmer mehr — aus Licht.', desc: 'Kalt- und Warmwintergärten, individuell geplant und ganzjährig nutzbar.', features: ['Kaltwintergarten', 'Warmwintergarten', 'Individuelle Planung'] },
+    { key: 'insektenschutz', img: 'https://jovial-horse-6e378a.netlify.app/assets/images/insektenschutz/insektenschutz-main.jpg', name: 'Insektenschutz & Zubehör', tagline: 'Frische Luft, ohne Gäste.', desc: 'Praktische Ergänzungen für Fenster und Türen, individuell passend zu Ihrem Zuhause.', features: ['Spannrahmen', 'Plissees', 'Zubehör'] },
+  ];
+  static TYPES = [
+    { key: 'neubau', label: 'Neubau', hint: 'Haus im Bau oder in Planung' },
+    { key: 'sanierung', label: 'Sanierung', hint: 'Austausch im Bestand' },
+    { key: 'erweiterung', label: 'Erweiterung', hint: 'Terrasse, Wintergarten, Garage' },
+  ];
+
+  renderVals() {
+    const P = Component.PRODUCTS, s = this.state;
+    const accentMap = { Messing: '#c9a15a', Terrakotta: '#d9774f', Salbei: '#9fb39a' };
+    const accent = accentMap[this.props.accent] ?? this.props.accent ?? '#c9a15a';
+    const a = P[s.active];
+    const toggle = (name) => this.setState(st => ({ picked: st.picked.includes(name) ? st.picked.filter(x => x !== name) : [...st.picked, name] }));
+    const typeLabel = Component.TYPES.find(t => t.key === s.type)?.label;
+    const summary = [s.picked.join(', '), typeLabel].filter(Boolean).join(' · ') || '—';
+    const mobile = s.w < 760;
+    return {
+      accent,
+      isMobile: mobile, isDesktop: !mobile,
+      menuOpen: mobile && s.menu, menuIcon: s.menu ? '✕' : '☰',
+      toggleMenu: () => this.setState(st => ({ menu: !st.menu })),
+      closeMenu: () => this.setState({ menu: false }),
+      footerPad: mobile ? '72px' : '0px',
+      showTopbar: (this.props.showTopbar ?? true) && !mobile,
+      products: P.map((p, i) => ({
+        ...p, num: String(i + 1).padStart(2, '0'),
+        select: (e) => { if (mobile) { this.setState(st => ({ open: st.open === i ? -1 : i, active: i })); } else if (this.state.active !== i) this.setState({ active: i }); },
+        expanded: mobile && s.open === i,
+        arrowRotate: mobile && s.open === i ? 'rotate(90deg)' : 'none',
+        request: () => this.setState(st => ({ step: 1, picked: st.picked.includes(p.name) ? st.picked : [...st.picked, p.name] })),
+        color: mobile || i === s.active ? '#24282c' : '#8b8f93',
+        numColor: i === s.active ? '#8a6a35' : '#a3a7ab',
+        arrowOpacity: mobile ? 1 : (i === s.active ? 1 : 0),
+        visibility: i === s.active ? 'visible' : 'hidden',
+      })),
+      active: { ...a, cta: `${a.name} anfragen`, request: () => this.setState(st => ({ step: 1, picked: st.picked.includes(a.name) ? st.picked : [...st.picked, a.name] })) },
+      stepBars: ['Produkt', 'Projekt', 'Kontakt'].map((label, i) => ({ label, bar: s.step > i ? '#24282c' : '#d9d1c4', text: s.step > i ? '#24282c' : '#8b8f93' })),
+      isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3, isDone: s.step === 4,
+      chips: P.map(p => {
+        const on = s.picked.includes(p.name);
+        return { label: p.name, toggle: () => toggle(p.name), bg: on ? '#24282c' : 'transparent', fg: on ? '#f6f2ec' : '#24282c', border: on ? '#24282c' : '#cdbfa9' };
+      }),
+      projectTypes: Component.TYPES.map(t => {
+        const on = s.type === t.key;
+        return { ...t, pick: () => this.setState({ type: t.key }), bg: on ? '#fff' : 'transparent', border: on ? '#24282c' : '#cdbfa9' };
+      }),
+      step1Disabled: s.picked.length === 0, step1Opacity: s.picked.length ? 1 : 0.4,
+      step2Disabled: !s.type, step2Opacity: s.type ? 1 : 0.4,
+      next: () => this.setState(st => ({ step: st.step + 1 })),
+      back: () => this.setState(st => ({ step: st.step - 1 })),
+      submit: (e) => { e.preventDefault(); this.setState({ step: 4 }); },
+      notSent: s.step !== 4, sent: s.step === 4,
+      reset: () => this.setState({ step: 1, picked: [], type: null, files: [] }),
+      summary,
+      onFiles: (e) => this.setState({ files: Array.from(e.target.files || []).map(x => x.name) }),
+      filesLabel: s.files.length ? s.files.join(', ') : 'Fotos Ihrer Fenster oder Ihres Eingangs helfen bei der Einschätzung.',
+    };
+  }
+}
+</script>
+</body>
+</html>
