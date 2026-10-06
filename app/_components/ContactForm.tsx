@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, useTransition, type FocusEvent, type FormEvent } from "react";
 import { submitCallbackRequest } from "../actions";
 import { contact, PRODUCT_REQUEST_EVENT } from "../_data/site";
@@ -184,11 +185,10 @@ export function ContactForm() {
         {pending ? "Wird gesendet…" : "Rückruf anfordern"}
       </button>
       <p className="m-0 text-[0.8125rem] leading-normal text-muted">
-        Mit dem Absenden erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage
-        einverstanden. Mehr in unserer{" "}
-        <a href={contact.datenschutz} className="text-ink underline underline-offset-2">
+        Ihre Angaben verwenden wir ausschließlich zur Bearbeitung Ihrer Anfrage. Mehr in unserer{" "}
+        <Link href={contact.datenschutz} className="text-ink underline underline-offset-2">
           Datenschutzerklärung
-        </a>
+        </Link>
         .
       </p>
     </form>
